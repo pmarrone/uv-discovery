@@ -1,0 +1,23 @@
+doctype html
+html(lang='en')
+  head
+    meta(charset='UTF-8')
+    meta(name='viewport', content='width=device-width')
+    title= title
+    block css
+      link(rel='stylesheet', href='/css/style.css')
+      // bower:css
+      link(rel='stylesheet', href='../..//components/bootstrap/dist/css/bootstrap.css')
+      // endbower
+    block js
+      // bower:js
+      script(src='../..//components/angular/angular.js')
+      script(src='../..//components/angular-bootstrap/ui-bootstrap-tpls.js')
+      script(src='../..//components/jquery/dist/jquery.js')
+      script(src='../..//components/bootstrap/dist/js/bootstrap.js')
+      // endbower
+
+      if ENV_DEVELOPMENT
+        script(src='http://localhost:35729/livereload.js')
+  body
+    block content

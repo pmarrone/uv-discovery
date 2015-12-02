@@ -1,0 +1,10 @@
+extends layout
+
+append js
+    script(src='js/facetList/facetList.controller.js')
+
+block content
+  h1= title
+  p Welcome to #{title}
+
+div(ng-controller="FacetListController")

@@ -1,0 +1,27 @@
+div(ng-controller="FacetListController")
+	span Testing
+		.row
+			.col-md-3
+				div(ng-repeat="author in items.authors")
+					| {{author.author}} - {{author.count}}
+			.col-md-9
+				.container
+					.form-group
+						label Buscar
+						input.form-control(type="text" ng-model="search" ng-model-options="{debounce: 500}")
+
+					strong Items
+				
+					.panel.panel-default(ng-repeat="item in items.response.docs")
+						.panel-heading
+							h4(ng-repeat="title in item['dc.title']"){{title}}
+							
+						.panel-body
+							div(ng-show="item['dc.contributor.author'].length")
+								h4 Autor/es:
+								p(ng-repeat="author in item['dc.contributor.author']"){{author}}
+							div(ng-show="item['dc.description'].length")
+								h4 Descripción
+								p(ng-repeat="description in item['dc.description']"){{description}}
+				
+					pre {{items | json}}

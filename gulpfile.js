@@ -36,7 +36,7 @@ gulp.task('wiredep', function () {
   var layout = 'app/views/layout.jade';
   gulp.src(layout, {})
   .pipe(wiredep({
-    ignorePath: "public"
+    ignorePath: '../../public'
   }))
   .pipe(gulp.dest("app/views"));
 })

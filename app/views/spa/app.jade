@@ -2,8 +2,12 @@ div(ng-controller="FacetListController")
 	span Testing
 		.row
 			.col-md-3
-				div(ng-repeat="author in items.authors")
-					| {{author.author}} - {{author.count}}
+				.list-group
+					a.list-group-item.active Autores
+					a.list-group-item(ng-repeat="author in items.facet_counts.facet_pivot.author_keyword")
+						| {{author.value}} - {{author.count}} 
+				div(ng-repeat="author in items.facet_counts.facet_pivot.author_keyword")
+					| {{author.value}} - {{author.count}}
 			.col-md-9
 				.container
 					.form-group

@@ -3,8 +3,11 @@ extends layout
 append js
   script(src='/spa/app.js')
   script(src='/spa/facetList/facetList.controller.js')
+  script(src='/spa/menu/sdMenu.directive.js')
 block content
-  h1= title
-  p Welcome to #{title}
-  div(ng-app="solr-discovery")
+  nav.navbar.navbar-static-top.navbar-default
+    .container-fluid Test Content
+  .container(ng-app="solr-discovery")
+    h1= title
+    p Solr-Discovery  #{title}
     div(ui-view)

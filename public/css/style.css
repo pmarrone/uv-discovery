@@ -1,6 +1,35 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif; }
+.list-group-padding {
+  padding-left: 15px; }
 
-a {
-  color: #00B7FF; }
+.list-group.list-group-root {
+  padding: 0;
+  overflow: hidden; }
+
+.list-group.list-group-root .list-group {
+  margin-bottom: 0;
+  margin-top: 1px; }
+
+.list-group.list-group-root .list-group-item {
+  border-radius: 0;
+  border-width: 1px 0 0 0; }
+
+.list-group.list-group-root > * > .list-group-item:first-child {
+  border-top-width: 0; }
+
+.list-group.list-group-root .list-group .list-group-item {
+  padding-left: 30px; }
+
+.list-group.list-group-root .list-group .list-group .list-group-item {
+  padding-left: 45px; }
+
+.list-group .collapse {
+  padding: 0px;
+  display: none; }
+
+.list-group .collapse.in {
+  padding: 10px, 15px; }
+
+.list-group .collapsing {
+  padding: 0px;
+  transition: all .305s ease;
+  -webkit-transition: all .305s ease; }

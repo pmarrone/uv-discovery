@@ -18,9 +18,14 @@ gulp.task('watch', function() {
 gulp.task('develop', function () {
   livereload.listen();
   nodemon({
+    execMap: {
+      js: 'node-inspector & node --debug'
+    },
     script: 'app.js',
     ext: 'js coffee jade',
-    stdout: false
+    stdout: false,
+    debug: true,
+    verbose: true
   }).on('readable', function () {
     this.stdout.on('data', function (chunk) {
       if(/^Express server listening on port/.test(chunk)){

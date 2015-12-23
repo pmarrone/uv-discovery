@@ -1,0 +1,5 @@
+a.list-group-item(ng-repeat-start="item in items track by item.value" ng-click="collapsed = !collapsed; filterQuery(item)") {{item.value}} 
+    span.badge {{item.count}}
+    button(ng-show="isActive(item)" ng-click="removeFilter(item); $event.preventDefault(); $event.stopPropagation();") X
+.list-group(ng-repeat-end ng-if="item.pivot" uib-collapse="collapsed")
+    ng-include(src="'spa/menu/menuItem.html'")

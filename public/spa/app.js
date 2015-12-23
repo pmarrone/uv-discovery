@@ -1,5 +1,5 @@
 angular.module("solr-discovery", 
-	["ui.bootstrap", "ui.router", "ngResource"])
+	["ui.bootstrap", "ui.router", "ngResource", "ngAnimate"])
 .config(function ($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/");
 

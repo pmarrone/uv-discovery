@@ -11,18 +11,19 @@ var client = solrClient.createClient({
     solrVersion: "4.0"
 });
 
-function search(queryParam, filters) {
+function search(queryParam, filters) {   
     var query = client.createQuery()
         .q(queryParam || "*:*")
-        .fl(["handle", "dc.contributor.author", "dc.description", "dc.title", "author_keyword", "location.path_1_s,location.path_2_s,location.path_3_s"])
+        .fl(["handle", "dc.contributor.author", "dc.identifier", "dc.description", "dc.title", "author_keyword", "location.path_1_s,location.path_2_s,location.path_3_s"])
         .facet({
+            limit: 10,
             field: "author_keyword",
             pivot: {
                 "fields": ["location.path_1_s,location.path_2_s,location.path_3_s", "author_keyword"]
             }
         });
 
-    console.log("Filters: " + filters)
+    console.log("Filters tested: " + filters)
     for (var filter in filters) {
         if (filters.hasOwnProperty(filter)) {
             var fq = "fq=" + encodeURIComponent("{!raw f=" + filter +"}" + filters[filter]);
@@ -30,12 +31,13 @@ function search(queryParam, filters) {
             query.set(fq);
         }
     }
-
+    console.log(query);
     var deferred = q.defer();
     client.search(query, function(err, obj) {
+        console.log("Query completed");
         if (err) {
             deferred.reject(err);
-            //console.log(err);
+            console.log(err);
         } else {
             console.log(obj);
             deferred.resolve(obj);
@@ -49,11 +51,14 @@ module.exports = function (app) {
 };
 
 router.get('/items', function (req, res, next) {
-    console.log(req.query);
     search(req.query.q, JSON.parse(req.query.filters || "{}"))
     .then(function (items) {
+        console.log(items);
         res.json(items);
-    });
+    },function (err) {
+        console.log(err);
+    })
+    .done();
 });
 
 router.get('/hierarcy', function (req, res, next) {

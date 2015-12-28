@@ -1,33 +1,37 @@
 div(ng-controller="FacetListController")
 	.form-group
-		label Buscar
+		label Buscar 
 		input.form-control(type="text" ng-model="search" ng-model-options="{debounce: 500}")
-		pre {{filters}}
+		span(ng-repeat="(field, filter) in filters" ng-click="removeFilter(field)")
+			span.label.label-primary {{filter | replaceSeparator}} 
+				.i.glyphicon.glyphicon-remove
+			|&nbsp
+		//pre {{filters}}
 	.row
 		.col-md-3
 			.list-group.list-group-root.well
 				a.list-group-item.active Categoría
 				sd-menu(items="items.facet_counts.facet_pivot['location.path_1_s,location.path_2_s,location.path_3_s']" filter-query="filterQuery" filters="filters")
-			.list-group
-				a.list-group-item.active Autores
-				a.list-group-item(ng-repeat="author in items.facet_counts.facet_pivot.author_keyword")
-					| {{author.value}} - {{author.count}} 
-			div(ng-repeat="author in items.facet_counts.facet_pivot.author_keyword")
-				| {{author.value}} - {{author.count}}
+
+			.list-group.list-group-root.well
+				a.list-group-item.active Autor*
+				sd-menu(items="items.facet_counts.facet_pivot['author_keyword']" filter-query="filterQuery" filters="filters")
+
 		.col-md-9
 			
 			strong Items
 		
 			.panel.panel-default(ng-repeat="item in items.response.docs")
 				.panel-heading
-					h4(ng-repeat="title in item['dc.title']"){{title}}
+					h4(ng-repeat="title in item['dc.title']") {{title}}
 					
 				.panel-body
 					div(ng-show="item['dc.contributor.author'].length")
 						h4 Autor/es:
-						p(ng-repeat="author in item['dc.contributor.author']"){{author}}
+						p(ng-repeat="author in item['dc.contributor.author']") {{author}}
 					div(ng-show="item['dc.description'].length")
 						h4 Descripción
-						p(ng-repeat="description in item['dc.description']"){{description}}
-		
+						p(ng-repeat="description in item['dc.description']") {{description}}
+					div(ng-repeat="identifier in item['dc.identifier']")
+						a(ng-href="{{identifier}}") {{identifier}}
 			pre {{items | json}}

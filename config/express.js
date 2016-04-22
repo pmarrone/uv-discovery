@@ -30,9 +30,12 @@ module.exports = function(app, config) {
 
   var controllers = glob.sync(config.root + '/app/controllers/*.js');
   controllers.forEach(function (controller) {
-    require(controller)(app);
+    console.log(controller);
+    var controller = require(controller);
+    debugger; 
+    controller(app);
   });
-
+ 
   app.use(function (req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;

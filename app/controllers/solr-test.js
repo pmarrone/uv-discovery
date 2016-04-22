@@ -1,39 +1,31 @@
 "use strict";
 
+var elasticsearch = require('elasticsearch');
 var solrClient = require("solr-client");
 var q = require("q");
 var express = require('express');
 var router = express.Router();
 
+/*
 var client = solrClient.createClient({
     port: "8085",
     path: "/solr/search",
     solrVersion: "4.0"
 });
+*/
 
-function search(queryParam, filters) {   
-    var query = client.createQuery()
-        .q(queryParam || "*:*")
-        .fl(["handle", "dc.contributor.author", "dc.identifier", "dc.description", "dc.title", "author_keyword", "location.path_1_s,location.path_2_s,location.path_3_s"])
-        .facet({
-            limit: 10,
-            field: "author_keyword",
-            pivot: {
-                "fields": ["location.path_1_s,location.path_2_s,location.path_3_s", "author_keyword"]
-            }
-        });
+var client = new elasticsearch.Client({
+  host: 'localhost:9200',
+  log: 'trace',
+  apiVersion: '2.1'
+});
 
-    console.log("Filters tested: " + filters)
-    for (var filter in filters) {
-        if (filters.hasOwnProperty(filter)) {
-            var fq = "fq=" + encodeURIComponent("{!raw f=" + filter +"}" + filters[filter]);
-            console.log("fq: " + fq);            
-            query.set(fq);
-        }
-    }
-    console.log(query);
+
+function search(queryParam, filters) { 
+    console.log(queryParam);
+    console.log(filters);
     var deferred = q.defer();
-    client.search(query, function(err, obj) {
+    client.search({ q: queyParam}, function(err, obj) {
         console.log("Query completed");
         if (err) {
             deferred.reject(err);

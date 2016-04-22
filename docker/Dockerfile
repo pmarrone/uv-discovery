@@ -37,4 +37,6 @@ WORKDIR /app/
 EXPOSE 5858
 EXPOSE 8080
 
+RUN npm install -g mocha
+
 CMD [ "node" ]

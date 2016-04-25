@@ -1,6 +1,9 @@
 FROM ubuntu:trusty
 EXPOSE 3000
 
+EXPOSE 5858
+EXPOSE 8080
+
 RUN apt-get update
 RUN apt-get install -yq \
       curl
@@ -23,20 +26,13 @@ RUN npm install -g \
     gulp \
     grunt
 
-RUN apt-get install -y \
-    build-essential \
-    python
-
-RUN npm install -g node-gyp
 RUN npm install -g node-inspector
+RUN npm install -g mocha
 
 RUN mkdir /app/
 WORKDIR /app/
 
+RUN apt-get install git -y \
+    git
 
-EXPOSE 5858
-EXPOSE 8080
-
-RUN npm install -g mocha
-
-CMD [ "node" ]
+CMD [ 'node' ]

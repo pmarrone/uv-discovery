@@ -18,11 +18,10 @@ gulp.task('watch', function() {
 gulp.task('develop', function () {
   livereload.listen();
   nodemon({
-    //js: 'node-inspector & node --debug'
-    nodeArgs: ['--debug-brk'],
-    // execMap: {
-    //   js: 'node-inspect & node --debug'
-    // },
+    //nodeArgs: ['--debug'],
+    execMap: {
+        js: 'node-inspect & node --debug'
+    },
     script: 'app.js',
     ext: 'js coffee jade',
     stdout: false,

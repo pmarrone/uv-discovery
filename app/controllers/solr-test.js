@@ -15,9 +15,9 @@ var client = solrClient.createClient({
 */
 
 var client = new elasticsearch.Client({
-  host: 'localhost:9200',
+  host: 'elasticsearch:9200',
   log: 'trace',
-  apiVersion: '2.1'
+  apiVersion: '2.x'
 });
 
 
@@ -25,7 +25,7 @@ function search(queryParam, filters) {
     console.log(queryParam);
     console.log(filters);
     var deferred = q.defer();
-    client.search({ q: queyParam}, function(err, obj) {
+    client.search({ q: queryParam, index: 'document'}, function(err, obj) {
         console.log("Query completed");
         if (err) {
             deferred.reject(err);
@@ -45,8 +45,8 @@ module.exports = function (app) {
 router.get('/items', function (req, res, next) {
     search(req.query.q, JSON.parse(req.query.filters || "{}"))
     .then(function (items) {
-        console.log(items);
-        res.json(items);
+        console.log(items.hits);
+        res.json(items.hits);
     },function (err) {
         console.log(err);
     })

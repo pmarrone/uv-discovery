@@ -12,9 +12,14 @@ services:
       - 35729:35729
     volumes:
       - ../:/app
-    command: bash -c "node-inspector & gulp"
+    command: bash -c "gulp"
   elasticsearch:
     image: elasticsearch
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ../data/elasticsearch:/usr/share/elasticsearch/data
   mongo:
     image: mongo
 

@@ -20,15 +20,17 @@ angular.module("solr-discovery")
         });
       }
 
-      $scope.items = items;
+      $scope.items = items.hits.map(function (item) {
+        return item._source;
+      });
       console.log(items); 
-      var pivots = items.facet_counts.facet_pivot;
+      // var pivots = items.facet_counts.facet_pivot;
 
-      for (var pivot in pivots) {
-        if (pivots.hasOwnProperty(pivot)) {
-          removePrefixRecursive(pivots[pivot]);
-        }
-      }
+      // for (var pivot in pivots) {
+      //   if (pivots.hasOwnProperty(pivot)) {
+      //     removePrefixRecursive(pivots[pivot]);
+      //   }
+      // }
     });
 
   }

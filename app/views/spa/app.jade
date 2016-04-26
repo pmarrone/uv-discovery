@@ -21,17 +21,17 @@ div(ng-controller="FacetListController")
 			
 			strong Items
 		
-			.panel.panel-default(ng-repeat="item in items.response.docs")
+			.panel.panel-default(ng-repeat="item in items")
 				.panel-heading
-					h4(ng-repeat="title in item['dc.title']") {{title}}
+					h4(ng-repeat="title in item['dc:title']") {{title}}
 					
 				.panel-body
-					div(ng-show="item['dc.contributor.author'].length")
+					div(ng-show="item['dc:contributor'].length")
 						h4 Autor/es:
-						p(ng-repeat="author in item['dc.contributor.author']") {{author}}
-					div(ng-show="item['dc.description'].length")
+						p(ng-repeat="author in item['dc.contributor']") {{author}}
+					div(ng-show="item['dc:description'].length")
 						h4 Descripción
-						p(ng-repeat="description in item['dc.description']") {{description}}
-					div(ng-repeat="identifier in item['dc.identifier']")
+						p(ng-repeat="description in item['dc:description']") {{description}}
+					div(ng-repeat="identifier in item['dc:identifier']")
 						a(ng-href="{{identifier}}") {{identifier}}
 			pre {{items | json}}

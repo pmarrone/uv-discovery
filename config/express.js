@@ -32,7 +32,6 @@ module.exports = function(app, config) {
   controllers.forEach(function (controller) {
     console.log(controller);
     var controller = require(controller);
-    debugger; 
     controller(app);
   });
  

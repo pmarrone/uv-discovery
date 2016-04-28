@@ -20,10 +20,12 @@ angular.module("solr-discovery")
         });
       }
 
-      $scope.items = items.hits.map(function (item) {
+      $scope.items = items.hits.hits.map(function (item) {
         return item._source;
       });
       console.log(items); 
+      $scope.aggregations = items.aggregations;
+
       // var pivots = items.facet_counts.facet_pivot;
 
       // for (var pivot in pivots) {
@@ -36,8 +38,9 @@ angular.module("solr-discovery")
   }
   
   $scope.updateItems = updateItems;
-  $scope.filterQuery = function(item) {
-    $scope.filters[item.field] = item.path;
+
+  $scope.filterQuery = function(field, filter) {
+    $scope.filters[field] = filter;
     updateItems();
   };
 

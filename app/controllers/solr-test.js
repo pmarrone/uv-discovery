@@ -25,13 +25,35 @@ function search(queryParam, filters) {
     console.log(queryParam);
     console.log(filters);
     var deferred = q.defer();
-    client.search({ q: queryParam, index: 'document'}, function(err, obj) {
+    client.search(
+        {            
+            index: 'document',
+            body: {
+                query: {
+                    match: {
+                        _all: {
+                            query: queryParam || "",
+                            "operator" : "and",
+                            "fuzziness": "AUTO",
+                            "zero_terms_query": "all"
+                        }
+                    }
+                },
+                aggs: {
+                    "authors" : {
+                        "terms" : {
+                            "field" : "dc:contributor.raw"
+                        }
+                    }
+                }
+            }
+        }, function(err, obj) {
         console.log("Query completed");
         if (err) {
             deferred.reject(err);
-            console.log(err);
+            //console.log(err);
         } else {
-            console.log(obj);
+            //console.log(obj);
             deferred.resolve(obj);
         }
     });
@@ -45,8 +67,8 @@ module.exports = function (app) {
 router.get('/items', function (req, res, next) {
     search(req.query.q, JSON.parse(req.query.filters || "{}"))
     .then(function (items) {
-        console.log(items.hits);
-        res.json(items.hits);
+        //console.log(items.hits);
+        res.json(items);
     },function (err) {
         console.log(err);
     })
@@ -54,7 +76,7 @@ router.get('/items', function (req, res, next) {
 });
 
 router.get('/hierarcy', function (req, res, next) {
-    console.log(req.query);
+    //console.log(req.query);
     search(req.query.q, JSON.parse(req.query.filters))
     .then(function (items) {
         res.json(items);

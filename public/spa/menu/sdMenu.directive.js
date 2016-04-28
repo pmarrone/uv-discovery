@@ -4,19 +4,20 @@ angular.module("solr-discovery").directive("sdMenu", function () {
 		scope: {
 			items: "=items",
 			filterQuery: "=",
-			filters: '='
+			filters: '=',
+			field: '@'
 		},
 		templateUrl: "spa/menu/menu.html",
 		controller: function ($scope) {
 			$scope.collapsed = true;
 
 			$scope.isActive = function(item) {
-				return $scope.filters[item.field] == item.path;
+				return $scope.filters[$scope.field] == item.key;
 			}
 
 			$scope.removeFilter = function(item) {
 				if ($scope.isActive(item)) {
-					delete $scope.filters[item.field];
+					delete $scope.filters[$scope.field];
 				}
 			}
 		}

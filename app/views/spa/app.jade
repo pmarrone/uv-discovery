@@ -3,7 +3,7 @@ div(ng-controller="FacetListController")
 		label Buscar 
 		input.form-control(type="text" ng-model="search" ng-model-options="{debounce: 500}")
 		span(ng-repeat="(field, filter) in filters" ng-click="removeFilter(field)")
-			span.label.label-primary {{filter | replaceSeparator}} 
+			span.label.label-primary {{filter}} 
 				.i.glyphicon.glyphicon-remove
 			|&nbsp
 		//pre {{filters}}
@@ -15,7 +15,7 @@ div(ng-controller="FacetListController")
 
 			.list-group.list-group-root.well
 				a.list-group-item.active Autor*
-				sd-menu(items="items.facet_counts.facet_pivot['author_keyword']" filter-query="filterQuery" filters="filters")
+				sd-menu(items="aggregations.authors.buckets" field="authors" filter-query="filterQuery" filters="filters")
 
 		.col-md-9
 			

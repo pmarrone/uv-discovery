@@ -1,5 +1,8 @@
-a.list-group-item(ng-repeat-start="item in items track by item.value" ng-click="collapsed = !collapsed; filterQuery(item)") {{item.value}} 
-    span.badge {{item.count}}
+
+| Field: {{field}}
+a.list-group-item(ng-repeat-start="item in items track by item.key" ng-click="collapsed = !collapsed; filterQuery(field, item.key)") {{item.key}} 
+    span.badge {{item.doc_count}}
     .i.glyphicon.glyphicon-remove(ng-show="isActive(item)" ng-click="removeFilter(item); $event.preventDefault(); $event.stopPropagation();")
+
 .list-group(ng-repeat-end ng-if="item.pivot" uib-collapse="collapsed")
     ng-include(src="'spa/menu/menuItem.html'")

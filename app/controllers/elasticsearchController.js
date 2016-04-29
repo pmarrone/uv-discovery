@@ -25,22 +25,45 @@ function search(queryParam, filters) {
     console.log(queryParam);
     console.log(filters);
     var deferred = q.defer();
+
+    var query = {
+        bool: {
+            must: {
+                match: {
+                    _all: {
+                        query: queryParam || "",
+                        "operator" : "and",
+                        "fuzziness": "AUTO",
+                        "zero_terms_query": "all"
+                    }
+                }
+            }
+        }
+        
+    };
+
+    var termFilters = Object.keys(filters).map(function (key) {
+        console.log(key);
+        var currentFilter = {"term": {}};
+        currentFilter.term[key] = filters[key];
+        return currentFilter;
+    });
+
+    query.bool.filter = termFilters;    
+    
     client.search(
         {            
             index: 'document',
             body: {
-                query: {
-                    match: {
-                        _all: {
-                            query: queryParam || "",
-                            "operator" : "and",
-                            "fuzziness": "AUTO",
-                            "zero_terms_query": "all"
-                        }
+                query: query,
+                "highlight": {
+                    "fields" : {
+                        "dc:description" : {"number_of_fragments": 20}
                     }
                 },
+
                 aggs: {
-                    "authors" : {
+                    "dc:contributor.raw" : {
                         "terms" : {
                             "field" : "dc:contributor.raw"
                         }
@@ -65,7 +88,7 @@ module.exports = function (app) {
 };
 
 router.get('/items', function (req, res, next) {
-    search(req.query.q, JSON.parse(req.query.filters || "{}"))
+    search(req.query.q, JSON.parse(req.query.filters))
     .then(function (items) {
         //console.log(items.hits);
         res.json(items);

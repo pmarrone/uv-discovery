@@ -20,12 +20,12 @@ gulp.task('develop', function () {
   nodemon({
     //nodeArgs: ['--debug'],
     execMap: {
-        js: 'node-inspect & node --debug'
+        js: 'node-inspect & node --debug=5859'
     },
     script: 'app.js',
     ext: 'js coffee jade',
     stdout: false,
-    debug: true,
+    debug: false,
     verbose: true
   }).on('readable', function () {
     this.stdout.on('data', function (chunk) {

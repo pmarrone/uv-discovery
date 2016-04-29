@@ -15,7 +15,12 @@ div(ng-controller="FacetListController")
 
 			.list-group.list-group-root.well
 				a.list-group-item.active Autor*
-				sd-menu(items="aggregations.authors.buckets" field="authors" filter-query="filterQuery" filters="filters")
+				sd-menu(items="aggregations['dc:contributor.raw'].buckets" field="dc:contributor.raw" filter-query="filterQuery" filters="filters")
+
+
+			.list-group.list-group-root.well
+				a.list-group-item.active Materia
+				sd-menu(items="aggregations['dc:subject'].buckets" field="dc:subject" filter-query="filterQuery" filters="filters")
 
 		.col-md-9
 			
@@ -31,7 +36,8 @@ div(ng-controller="FacetListController")
 						p(ng-repeat="author in item['dc.contributor']") {{author}}
 					div(ng-show="item['dc:description'].length")
 						h4 Descripción
-						p(ng-repeat="description in item['dc:description']") {{description}}
+						p(ng-repeat="description in item['dc:description'] track by $index") 
+							{{description}}
 					div(ng-repeat="identifier in item['dc:identifier']")
 						a(ng-href="{{identifier}}") {{identifier}}
 			pre {{items | json}}
